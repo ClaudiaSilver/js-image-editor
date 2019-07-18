@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Special+Elite&display=swap" rel="stylesheet"> 
+  <title>JS Image Editor</title>
+</head>
+<body>
+  <h2>Image Editor</h2>
+  <h4>Update CSS Variables with <span class='hl'>JS</span></h4>
+
+  <div class="controls">
+    <label for="spacing">Frame:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="size">Size:</label>
+    <input id="size" type="range" name="size" min="10" max="800" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#efaac4">
+  </div>
+
+  <img src="https://images.unsplash.com/photo-1563373336-e8dd1e084c68?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1296&q=80">
+
+  <style>
+    /* declaring the variables */
+    :root{
+      --base: #efaac4; 
+      --spacing: 10px;
+      --blur: 10px;
+      --size: 10px;
+    }
+
+    /* using the variables */
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+      width: var(--size);
+      border-radius: 10px;
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
+    body {
+      text-align: center;
+      background: #383E4B;
+      color: #ffe8e1;
+      font-family: 'Special Elite', cursive;
+      font-weight: 100;
+      font-size: 40px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width: 100px;
+      margin-right: 30px;
+    }
+  </style>
+
+  <script>
+    // select all inputs on page
+    const inputs = document.querySelectorAll('.controls input');
+
+    // this function listens if any inputs are being changed
+    function handleUpdate() {
+      //console.log(this.value); //prints the values of blur, etc 
+      // dataset is an object that contains all attributes of the element
+      const suffix = this.dataset.sizing || ''; // 'or nothing' if it doesn't have sizing 
+      //console.log(suffix);
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+      //console.log(this.name);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate)); // forEach is available for node lists such as querySelectorAll and not exclusive to arrays
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate)); 
+
+  </script>
+
+</body>
+</html>
